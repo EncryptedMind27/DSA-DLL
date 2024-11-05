@@ -1,45 +1,70 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "header.h"
 
 int main(){
 	DLIST list = createList();
-	insertFront(list,4);
+	insertFront(list,1);
 	insertFront(list,3);
+	insertFront(list,4);
+	insertBack(list,0);
+	insertAt(list,2,3);
+	display(list);
+
+	deleteFront(list);
+	display(list);
+
+	deleteBack(list);
+	display(list);
+
+	deleteAt(list,2);
+	display(list);
+
+	insertFront(list,7);
+	insertFront(list,9);
+	insertFront(list,5);
+	insertBack(list,7);
+	insertBack(list,7);
+	display(list);
+
+	deleteElement(list,7);
+	display(list);
+
+	insertAt(list,9,3);
+	insertBack(list,1);
 	insertFront(list,2);
+	insertFront(list,1);
 	insertFront(list,1);
 	display(list);
 
-	insertBack(list,5);
-	insertBack(list,6);
-	insertBack(list,7);
-	insertBack(list,8);
-	insertAt(list,0,8);	
-	display(list);
-	
-	deleteFront(list);	
-	display(list);
-	
-	deleteBack(list);
-	display(list);
-	
-	deleteAt(list,4);
-	display(list);
-	
-	sort(list);
+	removeConsecutiveDuplicate(list);
 	display(list);
 
-	deleteElement(list,2);
+	sortDLL(list); 
 	display(list);
 
-	insertAt(list,3,2);
-	insertAt(list,3,2);
-	insertAt(list,6,4);
-	insertAt(list,6,4);
+	removeConsecutiveDuplicate(list);
 	display(list);
 
-	removeConsecutiveDuplicates(list);
-	display(list);
+	DLIST list1 = createList();
+	DLIST list2 = createList();
+
+	insertBack(list1,1);
+	insertBack(list1,2);
+	insertBack(list1,3);
+	insertBack(list1,4);
+	insertBack(list1,5);
+	display(list1);
+
+	insertFront(list2,9);
+	insertFront(list2,8);
+	insertFront(list2,7);
+	insertFront(list2,6);
+	display(list2);
+
+	DLIST mergedList = mergeList(list1,list2);
+	display(mergedList);
+	display(list2);
 
 
 	return 0;
