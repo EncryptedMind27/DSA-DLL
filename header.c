@@ -3,30 +3,30 @@
 DLIST createList(){
 	DLIST list = (DLIST)malloc(sizeof(struct dlist));
 	if(list == NULL){
-		printf("List Allocation Failed!");
+		printf("List Allocation Failed!\n");
 		exit(1);
 	}
-	list->size = 0;
-	list->tail = NULL;
+
 	list->head = NULL;
+	list->tail = NULL; 
+	list->size = 0;
+
 	return list;
 }
 
 void insertFront(DLIST list, element data){
 	DNODE node = (DNODE)malloc(sizeof(struct dnode));
 	if(node == NULL){
-		printf("Node Allocation Failed!");
-		exit(1);
+		printf("Node Allocation Failed!\n");
+		exit(1); 	
 	}
-
 	node->data = data;
 	node->prev = NULL;
-
 	if(list->size == 0){
-		node->next = NULL;
 		list->head = node;
-		list->tail = node;
-	}else{
+		list->tail = node; 
+		node->next = NULL;
+	} else {
 		node->next = list->head;
 		list->head->prev = node;
 		list->head = node;
@@ -37,53 +37,52 @@ void insertFront(DLIST list, element data){
 void insertBack(DLIST list, element data){
 	DNODE node = (DNODE)malloc(sizeof(struct dnode));
 	if(node == NULL){
-		printf("Node Allocation Failed!");
+		printf("Node Allocation Failed!\n");
 		exit(1);
 	}
 	node->data = data;
 	node->next = NULL;
 	if(list->size == 0){
 		list->head = node;
-		list->tail = node; 
+		list->tail = node;
 		node->prev = NULL;
 	} else {
 		node->prev = list->tail;
-	 	list->tail->next = node;
-	 	list->tail = node;
+		list->tail->next = node;
+		list->tail = node;
 	}
 	list->size++;
 }
 
-void insertAt(DLIST list, element data, int position){
-	DNODE node = (DNODE)malloc(sizeof(struct dnode));
-	if(node == NULL){
-		printf("Node Allocation Failed!");
-		exit(1);
-	}
-
-	if(position == 1){
+void insertAt(DLIST list, element data, int pos){
+	if(pos == 1){
 		insertFront(list,data);
-	} else if(position > list->size){
-		insertBack(list,data);
+	} else if(pos > list->size){
+		insertBack(list,data); 
 	} else {
-		node->data = data;
-		DNODE temp = list->head;
-		while(--position)
-			temp = temp->next;
+		DNODE node = (DNODE)malloc(sizeof(struct dnode));
+		if(node == NULL){ 
+			printf("Node Allocation Failed!\n");
+			exit(1);
+		}
 
-		temp->prev->next = node;
+		DNODE temp = list->head;
+		while(--pos)
+			temp = temp->next;
+		node->data = data;
+		node->next = temp;
 		node->prev = temp->prev;
 
+		temp->prev->next = node;
 		temp->prev = node;
-		node->next = temp;
 		list->size++;
 	}
 }
 
 void deleteFront(DLIST list){
 	DNODE temp = list->head;
-	list->head->next->prev = NULL;
-	list->head = list->head->next;
+	list->head = temp->next;
+	list->head->prev = NULL;
 	list->size--;
 
 	free(temp);
@@ -92,34 +91,63 @@ void deleteFront(DLIST list){
 
 void deleteBack(DLIST list){
 	DNODE temp = list->tail;
-	list->tail->prev->next = NULL;
-	list->tail = list->tail->prev;
+	list->tail = temp->prev;
+	list->tail->next = NULL;
 	list->size--;
 
 	free(temp);
 	temp = NULL;
 }
 
-void deleteAt(DLIST list, int position){
-	if(position == 1){
+void deleteAt(DLIST list, int pos){
+	if(pos == 1){
 		deleteFront(list);
-	} else if(position == list->size){
+	} else if(pos == list->size){
 		deleteBack(list);
 	} else {
 		DNODE temp = list->head;
-		while(--position)
+		while(--pos)
 			temp = temp->next;
 
 		temp->prev->next = temp->next;
 		temp->next->prev = temp->prev;
 
+		list->size--;
+
 		free(temp);
 		temp = NULL;
-		list->size--;
 	}
 }
 
-void sort(DLIST list){
+void deleteElement(DLIST list, element data) {
+    DNODE current = list->head;
+
+    while(current != NULL) {
+        if(current->data == data){
+            DNODE toDelete = current; 
+            if(toDelete->prev != NULL){
+                toDelete->prev->next = toDelete->next;
+            }else{   
+                list->head = toDelete->next;
+            }
+
+            if(toDelete->next != NULL){
+                toDelete->next->prev = toDelete->prev;
+            } else{               
+                list->tail = toDelete->prev;
+            }
+
+            current = toDelete->next; 
+            free(toDelete); 
+            list->size--; 
+        } else{
+            current = current->next; 
+        }
+    }
+}
+
+
+void sortDLL(DLIST list){
 	DNODE temp = list->head;
 	element arr[list->size];
 	for(int i=0;i<list->size;i++){
@@ -128,10 +156,9 @@ void sort(DLIST list){
 	}
 	for(int i=0;i<list->size-1;i++){
 		int hold = i;
-		for(int j=i+1;j<list->size;j++){
-			if(arr[j]<arr[hold]){
+		for(int j=i;j<list->size;j++){
+			if(arr[j]<arr[hold])
 				hold = j;
-			}
 		}
 		element eTemp = arr[i];
 		arr[i] = arr[hold];
@@ -144,42 +171,36 @@ void sort(DLIST list){
 	}
 }
 
-void deleteElement(DLIST list, element data){
-	DNODE temp = list->head;
-	int pos = 1;
-	while(temp != NULL){
-		if(temp->data == data){
-			DNODE nextNode = temp->next;
-			deleteAt(list,pos);
-			temp = nextNode;
+void removeConsecutiveDuplicate(DLIST list){
+	DNODE current = list->head;
+	while(current != NULL && current->next != NULL){
+		if(current->data == current->next->data){
+			DNODE duplicate = current->next;
+			current->next = duplicate->next;
+			if(duplicate->next != NULL){
+				duplicate->next->prev = current;
+			} else {
+				list->tail = current; 
+			}
+			free(duplicate);
+			duplicate = NULL;
+			list->size--;
 		} else {
- 			temp = temp->next;
- 		}
-		pos++;
+			current = current->next;
+		}
 	}
 }
 
-void removeConsecutiveDuplicates(DLIST list) {
-    DNODE current = list->head;
+DLIST mergeList(DLIST list1, DLIST list2){
+	list1->tail->next = list2->head;
+	list2->head->prev = list1->tail;
 
-    while (current != NULL && current->next != NULL) {
-        if (current->data == current->next->data) {
-            
-            DNODE duplicate = current->next;
+	list1->size += list2->size;
 
-            current->next = duplicate->next;
-            if (duplicate->next != NULL){
-                duplicate->next->prev = current;
-            } else {
-                list->tail = current;
-            }
-
-            free(duplicate);
-            list->size--;
-        } else {            
-            current = current->next;
-        }
-    }
+	list2->head = NULL;
+	list2->tail = NULL;
+	list2->size = 0;
+	return list1;
 }
 
 void display(DLIST list){
@@ -190,4 +211,4 @@ void display(DLIST list){
 		temp = temp->next;
 	}
 	printf("\n");
-} 
+}
