@@ -19,12 +19,14 @@ DLIST createList();
 void insertFront(DLIST,element);
 void insertBack(DLIST,element);
 void insertAt(DLIST,element,int);
-void deleteFront(DLIST); 
+void deleteFront(DLIST);
 void deleteBack(DLIST);
 void deleteAt(DLIST,int);
 void deleteElement(DLIST,element);
-void sort(DLIST);
-void removeConsecutiveDuplicates(DLIST);
+void removeConsecutiveDuplicate(DLIST);
+void sortDLL(DLIST);
+DLIST mergeList(DLIST,DLIST);
 void display(DLIST);
+
 
 #endif
