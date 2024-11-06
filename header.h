@@ -26,6 +26,9 @@ void deleteElement(DLIST,element);
 void removeConsecutiveDuplicate(DLIST);
 void sortDLL(DLIST);
 DLIST mergeList(DLIST,DLIST);
+void addZeroBeforeAndAfterX(DLIST,element);
+void deleteLastOccurence(DLIST,element);
+void removeEveryXthNode(DLIST,int);
 void display(DLIST);
 
 

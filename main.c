@@ -34,6 +34,9 @@ int main(){
 	insertBack(list,1);
 	insertFront(list,2);
 	insertFront(list,1);
+	insertFront(list,6);
+	insertFront(list,8);
+	insertFront(list,7);
 	insertFront(list,1);
 	display(list);
 
@@ -66,6 +69,15 @@ int main(){
 	display(mergedList);
 	display(list2);
 
+	insertBack(list,3);
+	addZeroBeforeAndAfterX(list,3);
+	display(list);
+
+	deleteLastOccurence(list,1);
+	display(list);
+
+	removeEveryXthNode(list,3);
+	display(list);
 
 	return 0;
 }

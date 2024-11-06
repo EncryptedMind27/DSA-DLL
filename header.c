@@ -203,6 +203,105 @@ DLIST mergeList(DLIST list1, DLIST list2){
 	return list1;
 }
 
+void addZeroBeforeAndAfterX(DLIST list,element data){
+	DNODE temp = list->head;
+	while(temp != NULL){
+		if(temp->data == data){
+			DNODE node1 = (DNODE)malloc(sizeof(struct dnode));
+			DNODE node2 = (DNODE)malloc(sizeof(struct dnode));
+
+			node1->next = node2->next = NULL;
+			node1->prev = node2->prev = NULL;
+			node1->data = node2->data = 0;
+			if(list->head != temp){
+				node1->next = temp;
+				node1->prev = temp->prev;
+				temp->prev->next = node1;
+				temp->prev = node1;
+			} else {
+				temp->prev = node1;
+				node1->next = temp;
+				list->head = node1;
+			}
+
+			if(list->tail != temp){
+				node2->prev = temp;
+				node2->next = temp->next;
+				temp->next->prev = node2;
+				temp->next = node2;
+			} else {
+				temp->next = node2;
+				node2->prev = temp;
+				list->tail = node2;
+			}
+			list->size += 2;
+		}
+		temp = temp->next;
+	}
+}
+
+void deleteLastOccurence(DLIST list, element data){
+	DNODE current = list->head;
+	DNODE hold = NULL;
+	while(current != NULL){
+		if(current->data == data)
+			hold = current;
+
+		current = current->next;
+	}
+	if(hold == list->head){
+		list->head = hold->next;
+		hold->next->prev = NULL;		
+	} else if(hold == list->tail){
+		list->tail = hold->prev;
+		hold->prev->next = NULL;
+	} else {
+		hold->prev->next = hold->next;
+		hold->next->prev = hold->prev;
+	}
+	free(hold);
+	list->size--;
+}
+
+void removeEveryXthNode(DLIST list, int Xth){
+	if(Xth == 1){
+		DNODE temp = list->head;
+		while(temp != NULL){
+            DNODE toDel = temp;
+            temp = temp->next;
+            free(toDel);
+        }
+		list->head = NULL;
+		list->tail = NULL;
+		list->size = 0; 
+	}
+	DNODE current = list->head;
+	int cnt = 0;
+	while(current != NULL){
+		cnt++;
+		if(cnt % Xth == 0){
+			DNODE hold = current->next;
+			DNODE toDel = current;
+			if(current->prev == NULL){
+				list->head = current->next;
+				current->next->prev = NULL;
+			} else if(current->next == NULL){
+				list->tail = current->prev;
+				current->prev->next = NULL;
+			}else{
+				current->prev->next = current->next;
+				current->next->prev = current->prev;
+			}
+			current = hold;
+			list->size--;
+			free(toDel);
+		}else{
+			current = current->next;
+		}
+	}
+}
+
+
 void display(DLIST list){
 	DNODE temp = list->head;
 	printf("[%d]: ",list->size);
