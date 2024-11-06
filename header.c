@@ -301,6 +301,26 @@ void removeEveryXthNode(DLIST list, int Xth){
 	}
 }
 
+int occurenceElement(DLIST list, element  data){
+	int cnt = 0;
+	DNODE temp = list->head;
+	while(temp != NULL){
+		if(temp->data == data)
+			cnt++;
+		temp = temp->next;
+	}
+	return cnt;
+}
+
+// TO BE CONTINUE
+void pairwiseSwap(DLIST list){
+	DNODE current = list->head;
+	while(current != NULL && current->next != NULL){
+		if(current == list->head){
+			
+		}
+	}
+}
 
 void display(DLIST list){
 	DNODE temp = list->head;

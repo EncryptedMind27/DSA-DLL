@@ -29,6 +29,8 @@ DLIST mergeList(DLIST,DLIST);
 void addZeroBeforeAndAfterX(DLIST,element);
 void deleteLastOccurence(DLIST,element);
 void removeEveryXthNode(DLIST,int);
+int occurenceElement(DLIST,element);
+void pairwiseSwap(DLIST);
 void display(DLIST);
 
 

@@ -79,5 +79,7 @@ int main(){
 	removeEveryXthNode(list,3);
 	display(list);
 
+	printf("Occurence[0]: %d",occurenceElement(list,0));
+
 	return 0;
 }
