@@ -1,6 +1,7 @@
 #include "header.h"
 
-DLIST createList(){
+// ================= Doubly Linked List Zone ================= //
+DLIST createDList(){
 	DLIST list = (DLIST)malloc(sizeof(struct dlist));
 	if(list == NULL){
 		printf("List Allocation Failed!\n");
@@ -322,10 +323,114 @@ void pairwiseSwap(DLIST list){
 	}
 }
 
+
 void display(DLIST list){
 	DNODE temp = list->head;
 	printf("[%d]: ",list->size);
 	while(temp != NULL){
+		printf("%d ",temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+}
+
+// ================= Circular Linked List Zone ================= //
+
+CLIST createCList(){
+	CLIST list = (CLIST)malloc(sizeof(struct clist));
+	if(list == NULL){
+		printf("List Allocation Failed!\n");
+		exit(1);
+	}
+	list->head = NULL;
+	list->size = 0;
+	return list;
+}
+ 
+void insertFrontC(CLIST list, element data){
+	CNODE node = (CNODE)malloc(sizeof(struct cnode));
+	if(list == NULL){
+		printf("Node Allocation Failed!\n");
+		exit(1);
+	}
+	node->data = data;
+	if(list->size == 0){
+		list->head = node;
+		node->next = list->head;
+	}else{
+		CNODE temp = list->head; 
+		while(temp->next != list->head)
+			temp = temp->next;
+		node->next = temp->next;
+		temp->next = node;
+		list->head = node;
+	}
+	list->size++;
+} 
+
+void insertBackC(CLIST list, element data){
+	CNODE node = (CNODE)malloc(sizeof(struct cnode));
+	CNODE tmp = list->head;
+	node->data = data;
+	
+	while(tmp->next != list->head)
+		tmp = tmp->next;
+
+	tmp->next = node;
+	node->next = list->head;
+	list->size++;
+}
+
+void insertAtC(CLIST list, element data, int pos){
+	if(pos == 1){
+		insertFrontC(list,data);
+	} else if(pos > list->size){
+		insertBackC(list,data);
+	} else {
+		CNODE node =(CNODE)malloc(sizeof(struct cnode));
+		pos -= 1;
+		node->data = data;
+		CNODE current = list->head;
+		while(--pos)
+			current = current->next;
+
+		node->next = current->next;
+		current->next = node;
+		list->size++;
+	}
+}
+
+void deleteFrontC(CLIST list){
+	CNODE temp = list->head;
+	while(temp->next != list->head)
+		temp = temp->next;
+
+	CNODE toDel = list->head;
+	temp->next = list->head->next;
+	list->head = temp->next;
+
+	free(toDel);
+	toDel = NULL;
+	list->size--;
+}
+
+void deleteBackC(CLIST list){
+	CNODE temp = list->head;
+	while(temp->next->next != list->head)
+		temp = temp->next;
+
+	CNODE toDel = temp->next;
+	temp->next = list->head;
+	free(toDel);
+	toDel = NULL;
+	list->size--;
+}
+
+void displayC(CLIST list){
+	int size = list->size;
+	CNODE temp = list->head;
+	printf("[%d]: ",list->size);
+	while(size--){
 		printf("%d ",temp->data);
 		temp = temp->next;
 	}

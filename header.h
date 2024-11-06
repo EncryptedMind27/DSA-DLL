@@ -15,7 +15,7 @@ typedef struct dlist{
 	DNODE tail;
 }*DLIST;
 
-DLIST createList();
+DLIST createDList();
 void insertFront(DLIST,element);
 void insertBack(DLIST,element);
 void insertAt(DLIST,element,int);
@@ -33,5 +33,25 @@ int occurenceElement(DLIST,element);
 void pairwiseSwap(DLIST);
 void display(DLIST);
 
+// ================= Circular Linked List Zone ================= //
 
+typedef struct cnode{
+	element data;
+	struct cnode* next;
+}*CNODE;
+
+typedef struct clist{
+	int size;
+	CNODE head;
+}*CLIST;
+
+CLIST createCList();
+void insertFrontC(CLIST,element);
+void insertBackC(CLIST,element);
+void insertAtC(CLIST,element,int);
+void deleteFrontC(CLIST);
+void deleteBackC(CLIST);
+void deleteAtC(CLIST,int);
+void deleteElementC(CLIST,element);
+void displayC(CLIST);
 #endif

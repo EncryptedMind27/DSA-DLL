@@ -3,7 +3,9 @@
 #include "header.h"
 
 int main(){
-	DLIST list = createList();
+	printf(" == DOUBLY LINKED LIST == ");
+
+	DLIST list = createDList();
 	insertFront(list,1);
 	insertFront(list,3);
 	insertFront(list,4);
@@ -49,8 +51,8 @@ int main(){
 	removeConsecutiveDuplicate(list);
 	display(list);
 
-	DLIST list1 = createList();
-	DLIST list2 = createList();
+	DLIST list1 = createDList();
+	DLIST list2 = createDList();
 
 	insertBack(list1,1);
 	insertBack(list1,2);
@@ -83,6 +85,28 @@ int main(){
 
 	pairwiseSwap(list);
 	display(list);
+	// ================= Circular Linked List Zone ================= //
+	printf(" == CIRCULAR LINKED LIST ==\n");
+	CLIST cList = createCList();
+	insertFrontC(cList,1);
+	insertFrontC(cList,2);
+	insertFrontC(cList,3);
+	insertFrontC(cList,4);
+	insertFrontC(cList,5);
+	insertBackC(cList,6);
+	insertBackC(cList,7);
+	displayC(cList);
 
+	insertAtC(cList,0,4);
+	insertAtC(cList,0,6);
+	insertAtC(cList,0,1);
+	insertAtC(cList,0,11);
+	displayC(cList);
+
+	deleteFrontC(cList);
+	displayC(cList);
+
+	deleteBackC(cList);
+	displayC(cList);
 	return 0;
 }
