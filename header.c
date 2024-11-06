@@ -312,13 +312,13 @@ int occurenceElement(DLIST list, element  data){
 	return cnt;
 }
 
-// TO BE CONTINUE
 void pairwiseSwap(DLIST list){
-	DNODE current = list->head;
-	while(current != NULL && current->next != NULL){
-		if(current == list->head){
-			
-		}
+	DNODE temp = list->head;
+	while(temp!=NULL && temp->next!=NULL){
+		element data = temp->data;
+		temp->data = temp->next->data;
+		temp->next->data = data;
+		temp = temp->next->next;
 	}
 }
 

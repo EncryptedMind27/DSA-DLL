@@ -79,7 +79,10 @@ int main(){
 	removeEveryXthNode(list,3);
 	display(list);
 
-	printf("Occurence[0]: %d",occurenceElement(list,0));
+	printf("Occurence[0]: %d\n",occurenceElement(list,0));
+
+	pairwiseSwap(list);
+	display(list);
 
 	return 0;
 }
