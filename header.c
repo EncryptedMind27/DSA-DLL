@@ -426,6 +426,31 @@ void deleteBackC(CLIST list){
 	list->size--;
 }
 
+void deleteAtC(CLIST list, int pos){
+	CNODE temp = list->head;
+	if(pos == 1){
+		while(temp->next != list->head)
+			temp = temp->next;
+
+		CNODE toDel = list->head;
+		temp->next = list->head->next;
+		list->head = temp->next;
+		free(toDel);
+		toDel = NULL;
+	}else{
+		pos -= 1;
+		while(--pos)
+			temp = temp->next;
+
+		CNODE toDel = temp->next;
+		temp->next = toDel->next;
+
+		free(toDel);
+		toDel = NULL;
+	}
+	list->size--;
+}
+
 void displayC(CLIST list){
 	int size = list->size;
 	CNODE temp = list->head;

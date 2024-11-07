@@ -108,5 +108,8 @@ int main(){
 
 	deleteBackC(cList);
 	displayC(cList);
+
+	deleteAtC(cList,4);
+	displayC(cList);
 	return 0;
 }
